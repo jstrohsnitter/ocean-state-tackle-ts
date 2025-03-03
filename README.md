@@ -52,3 +52,15 @@ export default tseslint.config({
   },
 })
 ```
+REQUIREMENTS
+
+What information is needed?
+- blind click counter
+- shopify referral link
+- weather data from noaa
+- tide data from noaa
+- offshore swell data from noaa
+
+does each user see something different depending on who they are?
+does there need to be an admin capability?
+how will a purchase link be integrated?
