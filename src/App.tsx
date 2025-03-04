@@ -16,13 +16,19 @@ import Charters from './components/Charters';
 import FishingReport from './components/FishingReport';
 import Lures from './components/Brands';
 import NavBar from './components/NavBar';
+import Home from './components/Home';
 import './App.css'
+import { Route, Routes } from 'react-router';
 
 const App = () => {
   return (
     <>
     <NavBar/>
-    <h1>Hello world!</h1>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/species/freshwater" element={<Freshwater/>}/>
+      <Route path="/areas/blockisland" element={<BlockIsland/>}/>
+    </Routes>
     </>
     )
 };
