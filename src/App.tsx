@@ -15,16 +15,36 @@ import Brands from './components/Brands';
 import Charters from './components/Charters';
 import FishingReport from './components/FishingReport';
 import Lures from './components/Brands';
+import Dashboard from './components/Dashboard/Dashboard';
+import SignupForm from './components/SignupForm/SignupForm' // import the SignupForm
+import SigninForm from './components/SigninForm/SigninForm'
+import * as authService from '../src/services/authService'
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import { Route, Routes } from 'react-router';
 
+
 const App = () => {
+
+  const [user, setUser] = useState<unknown>(authService.getUser())
+
+  const handleSignout = () => {
+      authService.signout()
+      setUser(null)
+    }
+
   return (
     <>
-    <NavBar/>
+    <NavBar user={user} handleSignout={handleSignout}/>
     <Routes>
+    { user ? (
+          <Route path="/" element={<Dashboard user={user} />} />
+        ) : (
+          <Route path="/" element={<Home />} />
+        )}
+         <Route path='/signup' element={<SignupForm setUser={setUser} />} /> 
+         <Route path='/signin' element={<SigninForm setUser={setUser} />} />
       <Route path="/" element={<Home/>}/>
       <Route path="/species/freshwater" element={<Freshwater/>}/>
       <Route path="/areas/blockisland" element={<BlockIsland/>}/>
