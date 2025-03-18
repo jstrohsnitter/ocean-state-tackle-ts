@@ -4,11 +4,14 @@ const NewBlogPost = () => {
 
     const [formData, setFormData] = useState({
         postTitle:'',
+        youTubeID: '',
         postText: '',
     })
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        setFormData({postTitle: ''})
+        setFormData({youTubeID: ''})
         setFormData({postText: ''})
     }
 
@@ -18,7 +21,8 @@ const NewBlogPost = () => {
 
     return (
         <>
-        <h1 className="New Post Header">New Blog Post</h1>
+        <div className="newPostDiv">
+        <h1 className="newPostHeader">New Blog Post</h1>
         <form className="newPostForm" onSubmit={handleSubmit}>
             <label htmlFor="newPost">New Post: </label>
             <input
@@ -26,6 +30,13 @@ const NewBlogPost = () => {
                 name="postTitle"
                 value={formData.postTitle}
                 placeholder="Post Title..."
+                onChange={handleChange}
+            />
+             <input
+                id="youTubeID"
+                name="youTubeID"
+                value={formData.youTubeID}
+                placeholder="YouTube ID"
                 onChange={handleChange}
             />
             <textarea
@@ -44,6 +55,7 @@ const NewBlogPost = () => {
         </form>
 
         <button type="submit">Post</button>
+        </div>
         </>
     );
   };
