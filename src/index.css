@@ -54,7 +54,7 @@ ul {
   align-items: center;
   justify-content: space-around;
   width: 50vw;
-  height: 270px;
+  /* height: 270px; */
   border: 2px ridge rgb(115, 240, 20);
   margin: auto;
 }

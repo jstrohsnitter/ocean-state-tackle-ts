@@ -19,7 +19,7 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import { Route, Routes } from 'react-router';
-import * as blogService from './services/blogservices'
+import * as blogService from './services/blogServices'
 
 const App = () => {
 
