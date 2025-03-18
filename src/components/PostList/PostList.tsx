@@ -12,8 +12,9 @@ const PostList = (props) => {
                 <h2>No Posts Yet!</h2>
             ) : ( 
                 <ul>
-                {props.posts.map((post: { _id: Key | null | undefined; title: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
-                    <li key={post._id}>{post.title}</li>
+                {props.posts.map((post) => (
+                    <li key={post._id}>{post.title} {post.createdAt} {post.text}
+                    </li>
             ))}
             </ul>
             )}
