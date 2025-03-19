@@ -10,41 +10,59 @@ const NewBlogPost = () => {
         postTitle:'',
         youTubeID: '',
         postText: '',
+        imageArray: images,
     })
 
-    const handleSubmit = (event) => {
+    const handleAddPost = async (formData: { postTitle: string; youTubeID: string; postText: string; imageList: never[]; }) => {
+        try {
+            await console.log(formData)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleSubmit = async (event: {
+        preventDefault(): unknown; postTitle?: string; youTubeID?: string; postText?: string; imageList?: never[]; event: React.FormEvent<HTMLFormElement> }) => {
         event.preventDefault()
+        await handleAddPost(formData)
+        console.log(formData)
         setFormData({postTitle: ''})
         setFormData({youTubeID: ''})
         setFormData({postText: ''})
         setImages([])
     }
 
-    const handleChange = (event) => {
+ 
+
+    const handleChange = (event: { target: { name: any; value: any; }; }) => {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
 
     const onChange = (
         imageList: ImageListType,
-        addUpdateIndex: number[] | undefined
+        addUpdateIndex: number[] | undefined,
       ) => {
         // data for submit
         console.log(imageList, addUpdateIndex);
         setImages(imageList as never[]);
+        setFormData({...formData, imageArray: imageList })
       };
+
+      console.log(formData)      
 
     return (
         <>
         <div className="newPostDiv">
         <h1 className="newPostHeader">New Blog Post</h1>
-        <form className="newPostForm" onSubmit={handleSubmit}>
-            <label htmlFor="newPost">New Post: </label>
+        <form className="newPostForm" onSubmit={() => handleSubmit(formData)}>
+            <label htmlFor="postTitle">New Post: </label>
             <input
                 id="postTitle"
                 name="postTitle"
                 value={formData.postTitle}
                 placeholder="Post Title..."
                 onChange={handleChange}
+                required
             />
              <input
                 id="youTubeID"
@@ -69,6 +87,7 @@ const NewBlogPost = () => {
 
             <ImageUploading
                     multiple
+                    name="imageList"
                     value={images}
                     onChange={onChange}
                     maxNumber={maxNumber}
@@ -105,9 +124,10 @@ const NewBlogPost = () => {
                     </div>
                     )}
             </ImageUploading>
+            <button type="submit">Post</button>
         </form>
 
-        <button type="submit">Post</button>
+        
         </div>
         </>
     );

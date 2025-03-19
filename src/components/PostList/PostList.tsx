@@ -12,7 +12,7 @@ const PostList = (props: { posts: any[]; }) => {
         
     }
   
-    console.log(selectedPost)
+    // console.log(selectedPost)
     return (
       <div>
         <h1>Post List</h1>
@@ -22,10 +22,7 @@ const PostList = (props: { posts: any[]; }) => {
             ) : (<>
                 <ul className="postListUl">
                 {props.posts.map((post: { _id: string; title?: string; createdAt?: string; text?: string; }) => (
-                    <>
-                    <NavLink onClick={() => handleClick(post)} className="postNavLink" key={post._id} to={`/blog/posts/${post._id}`}>{post.title} {post.createdAt} {post.text}</NavLink>
-                    </>
-                    
+                    <NavLink onClick={() => handleClick(post)} className="postNavLink" key={post._id} to={`/blog/posts/${post._id}`}>{post.title} {post.createdAt} {post.text}</NavLink> 
             ))}
             </ul>
             </>
