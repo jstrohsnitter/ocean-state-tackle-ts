@@ -48,6 +48,11 @@ ul {
   width: 100%;
 } */
 
+.postListUl {
+  display: flex;
+  flex-direction: column;
+}
+
 .newPostForm {
   display: flex;
   flex-direction: column;
