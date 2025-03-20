@@ -6,7 +6,7 @@ const BlogPost = () => {
     const [post, setPost] = useState(null);
   
     useEffect(() => {
-      fetch(`http://localhost:3000/blog/posts/${id}`) // Replace with your API endpoint
+      fetch(`http://localhost:3000/blog/posts/${id}`) 
         .then((res) => res.json())
         .then((data) => setPost(data))
         .catch((err) => console.error("Error fetching post:", err));
