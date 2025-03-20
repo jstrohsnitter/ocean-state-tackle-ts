@@ -1,9 +1,10 @@
 import { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/services/blogServices.ts'
 
 const NewBlogPost = () => {
 
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState<ImageListType>([]);
     const maxNumber = 69;
 
     const [formData, setFormData] = useState({
@@ -13,28 +14,40 @@ const NewBlogPost = () => {
         imageArray: images,
     })
 
-    const handleAddPost = async (formData: { postTitle: string; youTubeID: string; postText: string; imageList: never[]; }) => {
+    const handleAddPost = async (formData: { postTitle: string; youTubeID: string; postText: string; imageArray: never[]; }) => {
         try {
-            await console.log(formData)
+            const newPost = await blogService.create(formData);
+            console.log(formData)
+            if (newPost.err) {
+                throw new Error(newPost.err)
+            }
         } catch (err) {
             console.log(err)
         }
     }
 
-    const handleSubmit = async (event: {
-        preventDefault(): unknown; postTitle?: string; youTubeID?: string; postText?: string; imageList?: never[]; event: React.FormEvent<HTMLFormElement> }) => {
+    
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement> ) => {
         event.preventDefault()
-        await handleAddPost(formData)
-        console.log(formData)
-        setFormData({postTitle: ''})
-        setFormData({youTubeID: ''})
-        setFormData({postText: ''})
+
+        const imageBase64Array = images.map(img => img.dataURL)
+
+        handleAddPost({...formData, imageArray: imageBase64Array})
+        // console.log(formData)
+        console.log(imageBase64Array)
+        setFormData({
+            postTitle: '',
+            youTubeID: '',
+            postText: '',
+            imageArray: []
+        });
         setImages([])
     }
 
  
 
-    const handleChange = (event: { target: { name: any; value: any; }; }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({...formData, [event.target.name]: event.target.value})
     }
 
@@ -48,13 +61,13 @@ const NewBlogPost = () => {
         setFormData({...formData, imageArray: imageList })
       };
 
-      console.log(formData)      
+//   console.log(formData)      
 
     return (
         <>
         <div className="newPostDiv">
         <h1 className="newPostHeader">New Blog Post</h1>
-        <form className="newPostForm" onSubmit={() => handleSubmit(formData)}>
+        <form className="newPostForm" onSubmit={handleSubmit}>
             <label htmlFor="postTitle">New Post: </label>
             <input
                 id="postTitle"
@@ -87,7 +100,6 @@ const NewBlogPost = () => {
 
             <ImageUploading
                     multiple
-                    name="imageList"
                     value={images}
                     onChange={onChange}
                     maxNumber={maxNumber}
