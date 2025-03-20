@@ -18,6 +18,7 @@ const NewBlogPost = () => {
         try {
             const newPost = await blogService.create(formData);
             console.log(formData)
+            setTimeout(windowReload, 2000)//ensures the page is reloaded when a post is made to get it in the list immidiately
             if (newPost.err) {
                 throw new Error(newPost.err)
             }
@@ -26,6 +27,11 @@ const NewBlogPost = () => {
         }
     }
 
+    function windowReload () {
+        window.location.reload()
+    }
+
+    
     
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement> ) => {

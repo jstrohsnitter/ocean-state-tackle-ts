@@ -14,12 +14,18 @@ const Blog = () => {
         if (fetchedPosts.err) {
           throw new Error(fetchedPosts.err)
         }
+        if (!ignore) {
         setPosts(fetchedPosts)
+        }
       } catch (err) {
         console.log(err)
       }  
     }
+    let ignore = false; //this is a cleanup function defined to eleviate suffering from race-conditions
     fetchPosts()
+    return () => {
+      ignore = true;
+    }
   }, []);
   
 
