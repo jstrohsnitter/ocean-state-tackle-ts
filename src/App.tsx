@@ -14,12 +14,13 @@ import Blog from './components/Blog';
 import Brands from './components/Brands';
 import Charters from './components/Charters';
 import FishingReport from './components/FishingReport';
+import BlogPost from './components/BlogPost/BlogPost';
 import Lures from './components/Brands';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import { Route, Routes } from 'react-router';
-import * as blogService from './services/blogservices'
+import * as blogService from './services/blogServices'
 
 const App = () => {
 
@@ -48,6 +49,8 @@ const App = () => {
       <Route path="/areas/offshore" element={<Offshore/>}/>
       <Route path="/areas/providence" element={<Providence/>}/>
       <Route path="/areas/southshore" element={<SouthShore/>}/>
+      <Route path={`/blog/posts/:id`} element={<BlogPost/>} />
+                  
     </Routes>
 
    
