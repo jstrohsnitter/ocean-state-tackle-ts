@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import { useParams } from "react-router"
-import { Post } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
+import { Post, newImagePost } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/services/blogServices.ts'
 
@@ -14,6 +14,17 @@ const BlogPost = () => {
         imageArray: [],
         createdAt: '',
     });
+
+    const [imageUpdate, setImageUpdate] = useState<newImagePost>({
+        _id: '',
+        postTitle: '',
+        youTubeID: '',
+        postText: '',
+        imageArray: [],
+        createdAt: '',
+        newBase64: [],
+    })
+
     const [edit, setEdit] = useState<boolean>(false)
     // const [cancel, setCancel] = useState<boolean>(false)
 
@@ -49,11 +60,10 @@ console.log(post)
         setEdit(false)
     }
 
-    const handleUpdatePost = async (post: Post) => {
+    const handleUpdatePost = async (imageUpdate: newImagePost) => {
         
         try {
-            const updatedPost = await blogService.update(post, `${post._id}`);
-            console.log(post)
+            const updatedPost = await blogService.update(imageUpdate, `${imageUpdate._id}`);
             setTimeout(windowReload, 2000)//ensures the page is reloaded when a post is made to get it in the list immidiately
             if (updatedPost.err) {
                 throw new Error(updatedPost.err)
@@ -70,21 +80,30 @@ console.log(post)
     const handleSubmit = (event: React.FormEvent<HTMLFormElement> ) => {
         event.preventDefault()
 
-        const imageBase64Array = images.map(img => img.dataURL)
+        const imageToUpload: ImageListType = post.imageArray.filter(img => img.dataURL !== undefined);
+        post.imageArray = post.imageArray.filter(img => img.dataURL === undefined);
+        console.log(post.imageArray)
 
-        handleUpdatePost({...post, imageArray: imageBase64Array})
-        // console.log(formData)
-        // console.log(imageBase64Array)
-        // setFormData({
-        //     postTitle: '',
-        //     youTubeID: '',
-        //     postText: '',
-        //     imageArray: []
-        // });
-        // setImages([])
+        const newBase64 = imageToUpload.map(img => img.dataURL)
+        console.log(newBase64)
+
+        //take the new array and upload it to imagekit
+        //handleNewImageUplaod fetch to imagekit
+        //get the new url and append it to imageArray
+
+        // setImageUpdate({...post, newBase64: newBase64})
+        // console.log(imageUpdate)
+
+        // handleUpdatePost(imageUpdate)
+
+        const updatedPost = { ...post, newBase64 };
+        setImageUpdate(updatedPost);
+        handleUpdatePost(updatedPost);
+
+        
     }
 
-    //if imageArray.index contains dataURL route it through the imagekit.io route
+    
   
 
     const onChange = (
@@ -194,3 +213,34 @@ console.log(post)
 }
 
 export default BlogPost
+
+//===========================SCRAP PILE=================================================================
+      // console.log(formData)
+        // console.log(imageBase64Array)
+        // setFormData({
+        //     postTitle: '',
+        //     youTubeID: '',
+        //     postText: '',
+        //     imageArray: []
+        // });
+        // setImages([])
+
+//if imageArray.index contains dataURL route it through the imagekit.io route
+
+    //     post.imageArray.forEach((img, index) => {
+    //        if (img.dataURL != undefined) {
+    //         // console.log(img)
+    //         imageToUpload.push(img)
+    //         post.imageArray.splice(index, 1)
+    //         console.log(imageToUpload)
+    //         console.log(post.imageArray)
+    //        } else {
+    //         console.log(img)
+    //        }
+    // })
+
+          // const imageBase64Array = images.map(img => img.dataURL)
+
+        ////loop through imageArray
+        ////if imageArray[index] contains url and file id, do nothing
+        ////if imageArray[index] contains dataURL, extract base 64 take it out and add it to a new array

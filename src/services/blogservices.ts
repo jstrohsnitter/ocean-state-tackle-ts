@@ -1,4 +1,5 @@
-import { Post } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
+import { Post, newImagePost } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
+
 
 const BASE_URL: string = 'http://localhost:3000/blog/posts'
 
@@ -48,18 +49,32 @@ const create = async (formData: Post) => {
     }
 }
 
+//imagekit upload
+
+// const upload = async (newBase64) => {
+//     for (let image of newBase64) {
+//         try {
+//             const uploaded = await ImageKit.upload({
+
+//             })
+//         }
+//     }
+// }
+
+
 // PUT - blog/posts/:id
 
-const update = async (formData: Post, id: string) => {
+const update = async (imageUpdate: newImagePost, id: string) => {
     try {
         const res = await fetch(`${BASE_URL}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData), 
+            body: JSON.stringify(imageUpdate), 
         });
         console.log('PUT INITIATED')
+        console.log(imageUpdate)
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
