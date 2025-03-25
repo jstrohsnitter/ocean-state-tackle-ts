@@ -3,13 +3,6 @@ import { Post } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-
 
 const PostList = (props: { posts: Post[]; }) => {
     
-    // let dateArray = []
-    // const dateMap = props.posts.map(timeStamp => {
-    //     dateArray.push(timeStamp.createdAt)
-    // })
-
-    // console.log(dateArray)
-
     const sortedArray: Post[] = [...props.posts].sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
     console.log(sortedArray)
     console.log(props.posts)
@@ -35,3 +28,12 @@ const PostList = (props: { posts: Post[]; }) => {
   };
   
   export default PostList;
+
+  //=======================TRASH PILE===================================================
+
+      // let dateArray = []
+    // const dateMap = props.posts.map(timeStamp => {
+    //     dateArray.push(timeStamp.createdAt)
+    // })
+
+    // console.log(dateArray)

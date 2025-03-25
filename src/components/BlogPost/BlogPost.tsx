@@ -33,14 +33,7 @@ const BlogPost = () => {
     const [images, setImages] = useState<ImageListType>([]);
     const maxNumber = 69;
 //===================== FETCH POST BY ID ===============================================================
-    // useEffect(() => {
-    //   fetch(`http://localhost:3000/blog/posts/${id}`) 
-    //     .then((res) => res.json())
-    //     .then((data) => setPost(data))
-    //     .catch((err) => console.error("Error fetching post:", err));
-        
-    // }, [id]); // Refetch if ID changes
-  
+ 
     useEffect(() => {
     const getById = async () => {
         try {
@@ -290,3 +283,11 @@ export default BlogPost
     //     postText: '',
     //     imageArray: images,
     // })
+
+       // useEffect(() => {
+    //   fetch(`http://localhost:3000/blog/posts/${id}`) 
+    //     .then((res) => res.json())
+    //     .then((data) => setPost(data))
+    //     .catch((err) => console.error("Error fetching post:", err));
+        
+    // }, [id]); // Refetch if ID changes

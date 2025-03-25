@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Freshwater from './components/Fish/Freshwater';
 import Pelagic from './components/Fish/Pelagic';
 import Saltwater from './components/Fish/Saltwater';
@@ -20,7 +19,6 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import { Route, Routes } from 'react-router';
-import * as blogService from './services/blogServices'
 
 const App = () => {
 
