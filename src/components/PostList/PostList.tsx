@@ -1,7 +1,4 @@
-import { SetStateAction, useState, ReactNode } from "react";
 import { NavLink } from "react-router";
-import { Route, Routes } from 'react-router';
-import BlogPost from "../BlogPost/BlogPost";
 import { Post } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
 
 const PostList = (props: { posts: Post[]; }) => {

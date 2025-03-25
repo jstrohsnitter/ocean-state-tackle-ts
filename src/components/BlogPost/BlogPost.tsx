@@ -7,7 +7,7 @@ import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocea
 const BlogPost = () => {
 
 // ================================ STATE VARIABLES ===========================================
-    const { id } = useParams(); // Get post ID from URL
+    const { id } = useParams<string>(); // Get post ID from URL
     const [post, setPost] = useState<Post>({
         _id: '',
         postTitle: '',
@@ -33,15 +33,33 @@ const BlogPost = () => {
     const [images, setImages] = useState<ImageListType>([]);
     const maxNumber = 69;
 //===================== FETCH POST BY ID ===============================================================
-    useEffect(() => {
-      fetch(`http://localhost:3000/blog/posts/${id}`) 
-        .then((res) => res.json())
-        .then((data) => setPost(data))
-        .catch((err) => console.error("Error fetching post:", err));
+    // useEffect(() => {
+    //   fetch(`http://localhost:3000/blog/posts/${id}`) 
+    //     .then((res) => res.json())
+    //     .then((data) => setPost(data))
+    //     .catch((err) => console.error("Error fetching post:", err));
         
-    }, [id]); // Refetch if ID changes
+    // }, [id]); // Refetch if ID changes
   
-    if (!post) return <p>Loading...</p>;
+    useEffect(() => {
+    const getById = async () => {
+        try {
+            const fetchedPost = await blogService.showById(id)
+            if (!ignore) {
+                setPost(fetchedPost)
+                }       
+        } catch (err) {
+            console.error("Error when fetching post in BlogPost component", err)
+        }
+    }
+        let ignore = false;
+         getById()
+        return () => {
+           ignore = true;
+         }
+     }, [id])
+
+     if (!post) return <p>Loading...</p>;
 //======================= HANDLE CHANGE (FORM), HANDLE EDIT, HANDLE CANCEL =====================================
     console.log(post)
 

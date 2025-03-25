@@ -42,7 +42,7 @@ const create = async (formData: Post) => {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
 
-        return await res.json()
+        return res.json()
     } catch (err) {
         console.error("Fetch error in create function:", err);
         throw err; 
@@ -54,7 +54,8 @@ const create = async (formData: Post) => {
 const showById = async (id:string) => {
     try {
         const res = await fetch(`${BASE_URL}/${id}`)
-        return res.json
+        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+        return await res.json()
     } catch (err) {
         console.error("Fetch error in show by ID function", err)
     }
@@ -99,6 +100,7 @@ const deletePost = async (id: string) => {
 export {
     index,
     create,
+    showById,
     update,
     deletePost
 }
