@@ -7,7 +7,8 @@ import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocea
 const BlogPost = () => {
 
 // ================================ STATE VARIABLES ===========================================
-    const { id } = useParams<string>(); // Get post ID from URL
+    const { id } = useParams<{id: string}>(); // Get post ID from URL
+    
     const [post, setPost] = useState<Post>({
         _id: '',
         postTitle: '',
@@ -53,6 +54,9 @@ const BlogPost = () => {
      }, [id])
 
      if (!post) return <p>Loading...</p>;
+     if (!id) return <p>Post not found. Make sure the post ID is valid.</p>
+
+     
 //======================= HANDLE CHANGE (FORM), HANDLE EDIT, HANDLE CANCEL =====================================
     console.log(post)
 
@@ -226,7 +230,7 @@ const BlogPost = () => {
                     ))}
                 </div>
             )}
-            <button onClick={() => handleEdit(post)}>Edit</button>
+            <button onClick={() => handleEdit()}>Edit</button>
             <button className="deletePost" onClick={handleDelete}>Delete</button>
         </div>
         }

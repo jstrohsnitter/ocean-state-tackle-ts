@@ -8,6 +8,7 @@ export type Post = {
 }
 
 export type ImageArray = {
+    dataURL: undefined
     url: string,
     fileId: string,
 }
