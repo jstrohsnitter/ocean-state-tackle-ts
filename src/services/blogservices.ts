@@ -49,6 +49,17 @@ const create = async (formData: Post) => {
     }
 }
 
+// GET - blog/posts/:id
+
+const showById = async (id:string) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${id}`)
+        return res.json
+    } catch (err) {
+        console.error("Fetch error in show by ID function", err)
+    }
+}
+
 // PUT - blog/posts/:id
 
 const update = async (imageUpdate: newImagePost, id: string) => {
