@@ -5,6 +5,8 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/services/blogServices.ts'
 
 const BlogPost = () => {
+
+// ================================ STATE VARIABLES ===========================================
     const { id } = useParams(); // Get post ID from URL
     const [post, setPost] = useState<Post>({
         _id: '',
@@ -30,14 +32,7 @@ const BlogPost = () => {
 
     const [images, setImages] = useState<ImageListType>([]);
     const maxNumber = 69;
-
-    // const [formData, setFormData] = useState({
-    //     postTitle:`${post.postTitle}`,
-    //     youTubeID: '',
-    //     postText: '',
-    //     imageArray: images,
-    // })
-  
+//===================== FETCH POST BY ID ===============================================================
     useEffect(() => {
       fetch(`http://localhost:3000/blog/posts/${id}`) 
         .then((res) => res.json())
@@ -47,7 +42,9 @@ const BlogPost = () => {
     }, [id]); // Refetch if ID changes
   
     if (!post) return <p>Loading...</p>;
-console.log(post)
+//======================= HANDLE CHANGE (FORM), HANDLE EDIT, HANDLE CANCEL =====================================
+    console.log(post)
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPost({...post, [event.target.name]: event.target.value})
     }
@@ -59,12 +56,21 @@ console.log(post)
     const handleCancel = () => {
         setEdit(false)
     }
+//======================= HELPER FUNCTIONS =============================================
+    function windowReload () {
+        window.location.reload()
+    }
 
+    function backToBlog () {
+        history.back()
+    }
+
+//================== HANDLEUPDATE UPDATE POST -- FRONT END TO BACK END REQUEST ===========================================================
     const handleUpdatePost = async (imageUpdate: newImagePost) => {
         
         try {
             const updatedPost = await blogService.update(imageUpdate, `${imageUpdate._id}`);
-            setTimeout(windowReload, 2000)//ensures the page is reloaded when a post is made to get it in the list immidiately
+            setTimeout(windowReload, 2000)//ensures the page is reloaded when a post is made to updated, brings user back to postlist/new blog post
             if (updatedPost.err) {
                 throw new Error(updatedPost.err)
             }
@@ -73,10 +79,9 @@ console.log(post)
         }
     }
 
-    function windowReload () {
-        window.location.reload()
-    }
 
+//================== HANDLESUBMIT UPDATE POST =======================================================================
+   
     const handleSubmit = (event: React.FormEvent<HTMLFormElement> ) => {
         event.preventDefault()
 
@@ -87,25 +92,28 @@ console.log(post)
         const newBase64 = imageToUpload.map(img => img.dataURL)
         console.log(newBase64)
 
-        //take the new array and upload it to imagekit
-        //handleNewImageUplaod fetch to imagekit
-        //get the new url and append it to imageArray
-
-        // setImageUpdate({...post, newBase64: newBase64})
-        // console.log(imageUpdate)
-
-        // handleUpdatePost(imageUpdate)
-
         const updatedPost = { ...post, newBase64 };
         setImageUpdate(updatedPost);
-        handleUpdatePost(updatedPost);
-
-        
+        handleUpdatePost(updatedPost);     
     }
 
+//======================= HANDLE DELETE =================================================================
+
+    const handleDelete = async () => {
+        try {
+            const deletedPost = await blogService.deletePost(post._id)
+            // setTimeout(backToBlog, 500)
+            backToBlog()
+            if (deletedPost.err) {
+                throw new Error(deletedPost.err)
+            }
+        } catch (err) {
+            console.log(`DELETE ERRROR: ${err}`)
+        }
+    }
     
   
-
+//=====================IMAGE UPLOAD ONCHANGE==========================================
     const onChange = (
         imageList: ImageListType,
         addUpdateIndex: number[] | undefined,
@@ -115,7 +123,7 @@ console.log(post)
         setImages(imageList as never[]);
         setPost({...post, imageArray: imageList })
       };
-  
+  // ========================= RETURN =====================================================
     return ( <>
         {edit ? 
         
@@ -186,10 +194,12 @@ console.log(post)
                     </div>
                     )}
             </ImageUploading>
-            <button type="submit">Update Post</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button className="updatePost" type="submit">Update Post</button>
+            
+            <button onClick={handleCancel} className="cancelUpdateButton">Cancel</button>
         </form>
 
+        
         
         </div>
         : 
@@ -206,6 +216,7 @@ console.log(post)
                 </div>
             )}
             <button onClick={() => handleEdit(post)}>Edit</button>
+            <button className="deletePost" onClick={handleDelete}>Delete</button>
         </div>
         }
         </>
@@ -244,3 +255,20 @@ export default BlogPost
         ////loop through imageArray
         ////if imageArray[index] contains url and file id, do nothing
         ////if imageArray[index] contains dataURL, extract base 64 take it out and add it to a new array
+
+        //take the new array and upload it to imagekit
+        //handleNewImageUplaod fetch to imagekit
+        //get the new url and append it to imageArray
+
+        // setImageUpdate({...post, newBase64: newBase64})
+        // console.log(imageUpdate)
+
+        // handleUpdatePost(imageUpdate)
+
+
+    // const [formData, setFormData] = useState({
+    //     postTitle:`${post.postTitle}`,
+    //     youTubeID: '',
+    //     postText: '',
+    //     imageArray: images,
+    // })

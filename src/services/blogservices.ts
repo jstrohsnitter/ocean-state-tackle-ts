@@ -49,19 +49,6 @@ const create = async (formData: Post) => {
     }
 }
 
-//imagekit upload
-
-// const upload = async (newBase64) => {
-//     for (let image of newBase64) {
-//         try {
-//             const uploaded = await ImageKit.upload({
-
-//             })
-//         }
-//     }
-// }
-
-
 // PUT - blog/posts/:id
 
 const update = async (imageUpdate: newImagePost, id: string) => {
@@ -85,8 +72,22 @@ const update = async (imageUpdate: newImagePost, id: string) => {
     }
 }
 
+// DELETE - blog/posts/:id
+
+const deletePost = async (id: string) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${id}`, {
+            method: 'DELETE',
+        })
+        return res.json()
+    } catch (err) {
+        console.log(`Delete Services Error: ${err}`)
+    }
+}
+
 export {
     index,
     create,
-    update
+    update,
+    deletePost
 }
