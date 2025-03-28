@@ -2,6 +2,7 @@ import {useState, useEffect} from "react"
 import { useParams } from "react-router"
 import { Post, newImagePost } from "/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/types/types.ts"
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import YouTube, { YouTubeProps } from 'react-youtube';
 import * as blogService from '/Users/macbook/code/personal/freelance/ost-ts/ocean-state-tackle-ts/src/services/blogServices.ts'
 
 const BlogPost = () => {
@@ -221,9 +222,8 @@ const BlogPost = () => {
         : 
             <div className="blogPostDiv">
             <h2 className="blogPostTitle">{post.postTitle}</h2>
+            {post.youTubeID? <YouTube videoId={post.youTubeID}/> : '' }
             <p className="blogPostText">{post.postText}</p>
-            <p className="blogPostText">YouTube ID: {post.youTubeID}</p>
-
             {post.imageArray && post.imageArray.length > 0 && (
                 <div className="imageContainer">
                     {post.imageArray.map((image: any, index: number) => (
