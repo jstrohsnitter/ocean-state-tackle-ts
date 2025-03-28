@@ -38,7 +38,7 @@ const BlogPost = () => {
     useEffect(() => {
     const getById = async () => {
         try {
-            const fetchedPost = await blogService.showById(id)
+            const fetchedPost = await blogService.showById(id!)
             if (!ignore) {
                 setPost(fetchedPost)
                 }       
@@ -101,13 +101,14 @@ const BlogPost = () => {
         event.preventDefault()
 
         const imageToUpload: ImageListType = post.imageArray.filter(img => img.dataURL !== undefined);
-        post.imageArray = post.imageArray.filter(img => img.dataURL === undefined);
+        const filteredPostImages = post.imageArray.filter(img => img.dataURL === undefined)
+
         console.log(post.imageArray)
 
         const newBase64 = imageToUpload.map(img => img.dataURL)
         console.log(newBase64)
 
-        const updatedPost = { ...post, newBase64 };
+        const updatedPost: newImagePost = { ...post, imageArray: filteredPostImages, newBase64 };
         setImageUpdate(updatedPost);
         handleUpdatePost(updatedPost);     
     }
